@@ -1,15 +1,20 @@
 import scala.collection.immutable.SortedMap
 
 class School {
-  private var map = SortedMap[Int, List[String]]()
+  
+  type Grade = Int
+  type Name = String
 
-  def db = map.toMap
+  private var _school = SortedMap[Grade, List[Name]]()
+
+  def db = _school.toMap
 
   def sorted = db.mapValues(_.sorted)
 
-  def add(name:String, g:Int): Unit =
-    map = map.updated(g, grade(g) :+ name)
+  def add(n: Name, g: Grade): Unit =
+    _school = _school.updated(g, grade(g) :+ n)
 
-  def grade(g:Int) =
-    map.getOrElse(g, List.empty[String])
+  def grade(g: Grade) =
+    _school.getOrElse(g, List.empty[Name])
+
 }
