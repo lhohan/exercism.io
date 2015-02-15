@@ -8,7 +8,6 @@ class TransformTest extends FunSuite with Matchers {
   }
 
   test ("transform more values") {
-    pending
     val old = Map(1 -> Seq("WORLD", "GSCHOOLERS"))
     val expected = Map("world" -> 1, "gschoolers" -> 1)
 
@@ -16,14 +15,12 @@ class TransformTest extends FunSuite with Matchers {
   }
 
   test ("more keys") {
-    pending
     val old = Map(1 -> Seq("APPLE", "ARTICHOKE"), 2 -> Seq("BOAT", "BALLERINA"))
     val expected = Map("apple" -> 1, "artichoke" -> 1, "boat" -> 2, "ballerina" -> 2)
     ETL.transform(old) should be (expected)
   }
 
   test ("full dataset") {
-    pending
     val old = Map(
       1 -> Seq("A", "E", "I", "O", "U", "L", "N", "R", "S", "T"),
       2 -> Seq("D", "G"),
