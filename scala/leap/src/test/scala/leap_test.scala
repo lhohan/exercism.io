@@ -6,17 +6,14 @@ class LeapTest extends FunSuite {
   }
 
   test ("any old year") {
-    pending
     assert(!Year(1997).isLeap)
   }
 
   test ("century") {
-    pending
     assert(!Year(1900).isLeap)
   }
 
   test ("exceptional century") {
-    pending
     assert(Year(2000).isLeap)
   }
 }
