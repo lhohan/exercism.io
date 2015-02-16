@@ -1,8 +1,13 @@
 import java.util.{Calendar, GregorianCalendar}
 
-object Meetup extends Enumeration {
-  type DayOfWeek = Value
-  val Mon, Tue, Wed, Thu, Fri, Sat, Sun = Value
+object Meetup {
+  val Mon = Calendar.MONDAY
+  val Tue = Calendar.TUESDAY
+  val Wed = Calendar.WEDNESDAY
+  val Thu = Calendar.THURSDAY
+  val Fri = Calendar.FRIDAY
+  val Sat = Calendar.SATURDAY
+  val Sun = Calendar.SUNDAY
 }
 
 case class Meetup(m: Int, y: Int) {
@@ -22,33 +27,21 @@ case class Meetup(m: Int, y: Int) {
 
   private def daysOfWeekday(dow: Int): Stream[GregorianCalendar] = days.filter(_.get(Calendar.DAY_OF_WEEK) == dow)
 
-  private def daysOfWeekday(dow: Meetup.DayOfWeek): Stream[GregorianCalendar] = daysOfWeekday(convert(dow))
+  private def ith(dayOfWeek: Int, i: Int) = daysOfWeekday(dayOfWeek).drop(i - 1).head
 
-  private def convert(dow: Meetup.DayOfWeek): Int = dow match {
-    case Meetup.Mon => Calendar.MONDAY
-    case Meetup.Tue => Calendar.TUESDAY
-    case Meetup.Wed => Calendar.WEDNESDAY
-    case Meetup.Thu => Calendar.THURSDAY
-    case Meetup.Fri => Calendar.FRIDAY
-    case Meetup.Sat => Calendar.SATURDAY
-    case Meetup.Sun => Calendar.SUNDAY
-  }
-
-  private def ith(dayOfWeek: Meetup.DayOfWeek, i: Int) = daysOfWeekday(dayOfWeek).drop(i - 1).head
-
-  def teenth(dayOfWeek: Meetup.DayOfWeek): GregorianCalendar = {
+  def teenth(dayOfWeek: Int): GregorianCalendar = {
     daysOfWeekday(dayOfWeek).filter(_.get(Calendar.DAY_OF_MONTH) / 10 == 1).last
   }
 
-  def first(dayOfWeek: Meetup.DayOfWeek): GregorianCalendar = ith(dayOfWeek, 1)
+  def first(dayOfWeek: Int): GregorianCalendar = ith(dayOfWeek, 1)
 
-  def second(dayOfWeek: Meetup.DayOfWeek): GregorianCalendar = ith(dayOfWeek, 2)
+  def second(dayOfWeek: Int): GregorianCalendar = ith(dayOfWeek, 2)
 
-  def third(dayOfWeek: Meetup.DayOfWeek): GregorianCalendar = ith(dayOfWeek, 3)
+  def third(dayOfWeek: Int): GregorianCalendar = ith(dayOfWeek, 3)
 
-  def fourth(dayOfWeek: Meetup.DayOfWeek): GregorianCalendar = ith(dayOfWeek, 4)
+  def fourth(dayOfWeek: Int): GregorianCalendar = ith(dayOfWeek, 4)
 
-  def last(dayOfWeek: Meetup.DayOfWeek): GregorianCalendar = daysOfWeekday(dayOfWeek).last
+  def last(dayOfWeek: Int): GregorianCalendar = daysOfWeekday(dayOfWeek).last
 
 }
 
