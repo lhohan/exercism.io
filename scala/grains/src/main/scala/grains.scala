@@ -4,5 +4,6 @@ object Grains {
 
   def square(s: Int): BigInt = powersOf2.take(s).last
 
-  lazy val total: BigInt = 1.to(64).map(square).sum
+  lazy val total: BigInt = powersOf2.take(64).sum
+
 }
