@@ -1,21 +1,24 @@
-case class SpaceAge(age: Long) {
+import scala.math.BigDecimal.RoundingMode
 
-  def onNeptune: Long = ???
+case class SpaceAge(seconds: Long) {
 
-  def seconds: Long = age
+  lazy val onNeptune = ageRelativeToEarth(164.79132)
 
-  def onUranus: Long = ???
+  lazy val onUranus = ageRelativeToEarth(84.016846)
 
-  def onSaturn: Long = ???
+  lazy val onSaturn = ageRelativeToEarth(29.447498)
 
-  def onJupiter: Long = ???
+  lazy val onJupiter = ageRelativeToEarth(11.862615)
 
-  def onMars: Long = ???
+  lazy val onMars = ageRelativeToEarth(1.8808158)
 
-  def onVenus: Long = ???
+  lazy val onVenus = ageRelativeToEarth(0.61519726)
 
-  def onMercury: Long = ???
+  lazy val onMercury = ageRelativeToEarth(0.2408467)
 
-  def onEarth: Long = ???
+  lazy val onEarth = ageRelativeToEarth(1)
+
+  private def ageRelativeToEarth(factor: Double): Double =
+    BigDecimal(seconds)./(BigDecimal(factor * 31557600)).setScale(2, RoundingMode.HALF_UP).toDouble
 
 }
