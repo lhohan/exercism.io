@@ -18,7 +18,9 @@ case class SpaceAge(seconds: Long) {
 
   lazy val onEarth = ageRelativeToEarth(1)
 
+  private lazy val secs = BigDecimal(seconds)
+
   private def ageRelativeToEarth(factor: Double): Double =
-    BigDecimal(seconds)./(BigDecimal(factor * 31557600)).setScale(2, RoundingMode.HALF_UP).toDouble
+    (secs / BigDecimal(factor * 31557600)).setScale(2, RoundingMode.HALF_UP).toDouble
 
 }
