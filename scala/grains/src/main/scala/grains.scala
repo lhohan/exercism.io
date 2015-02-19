@@ -1,9 +1,7 @@
 object Grains {
 
-  private val powersOf2 = Stream.from(1).map(i => BigInt(2).pow(i - 1))
+  def square(s: Int): BigInt = BigInt(2).pow(s - 1)
 
-  def square(s: Int): BigInt = powersOf2.take(s).last
-
-  lazy val total: BigInt = powersOf2.take(64).sum
+  lazy val total: BigInt = (1 to 64).foldLeft(BigInt(0))((acc, i) => acc + square(i))
 
 }
