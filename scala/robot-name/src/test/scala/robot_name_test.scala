@@ -25,4 +25,11 @@ class RobotNameSpecs extends FunSpec with Matchers {
     name should not equal (name2)
     name2 should fullyMatch regex (nameRegex)
   }
+
+//  it("when all names are exhausted it dies"){
+//    (1 to 10).map(_ => new Robot()).foreach{ r =>
+//      println(s"name is ${r.name}")
+//
+//    }
+//  }
 }

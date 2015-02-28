@@ -12,6 +12,7 @@ class Robot {
 
 }
 
+
 object Robot {
 
   private var pastNames = Set.empty[String]
@@ -26,8 +27,8 @@ object Robot {
 
   private def randomName = letters(2) + digits(3)
 
-  private def letters(n: Int) = new Random().alphanumeric.filter(_.isLetter).take(n).toList.mkString("")
+  private def letters(n: Int) = Random.alphanumeric.filter(_.isLetter).take(n).toList.mkString("")
 
-  private def digits(n: Int) = new Random().alphanumeric.filter(_.isDigit).take(n).toList.mkString("")
+  private def digits(n: Int) = Random.alphanumeric.filter(_.isDigit).take(n).toList.mkString("")
 
 }
