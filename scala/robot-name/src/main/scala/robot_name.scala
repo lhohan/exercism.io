@@ -15,20 +15,18 @@ class Robot {
 
 object Robot {
 
-  private var pastNames = Set.empty[String]
+  private def newName: String = randomNames.head // when exhausted will throw exception
 
-  private def randomNames: Stream[String] = randomName #:: randomNames
+  private def randomNames = Random.shuffle( // lazy list of all names, does not contain duplicates
+    for {
+      l1 <- letters
+      l2 <- letters
+      d1 <- digits
+      d2 <- digits
+      d3 <- digits
+    } yield s"$l1$l2$d1$d2$d3")
 
-  private def newName: String = {
-    val n = randomNames.filterNot(pastNames.contains).head
-    pastNames += n
-    n
-  }
-
-  private def randomName = letters(2) + digits(3)
-
-  private def letters(n: Int) = Random.alphanumeric.filter(_.isLetter).take(n).toList.mkString("")
-
-  private def digits(n: Int) = Random.alphanumeric.filter(_.isDigit).take(n).toList.mkString("")
+  private def letters = 'A' to 'Z'
+  private def digits = 0 to 9
 
 }

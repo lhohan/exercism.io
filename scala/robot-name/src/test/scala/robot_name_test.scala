@@ -27,9 +27,8 @@ class RobotNameSpecs extends FunSpec with Matchers {
   }
 
 //  it("when all names are exhausted it dies"){
-//    (1 to 10).map(_ => new Robot()).foreach{ r =>
+//    (1 to 1).map(_ => new Robot()).foreach{ r =>
 //      println(s"name is ${r.name}")
-//
 //    }
 //  }
 }
