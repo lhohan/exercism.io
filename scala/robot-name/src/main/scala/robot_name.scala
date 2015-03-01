@@ -15,9 +15,14 @@ class Robot {
 
 object Robot {
 
-  private def newName: String = randomNames.head // when exhausted will throw exception
+  private def newName: String = allNames.headOption match {
+    case Some(n) => n
+    case None => throw new UnsupportedOperationException("No more names available")
+  }
 
-  private def randomNames = Random.shuffle( // lazy list of all names, does not contain duplicates
+  // lazy list of all names, shuffled
+  // added the type to clarify
+  private def allNames: Stream[String] = Random.shuffle(
     for {
       l1 <- letters
       l2 <- letters
@@ -26,7 +31,8 @@ object Robot {
       d3 <- digits
     } yield s"$l1$l2$d1$d2$d3")
 
-  private def letters = 'A' to 'Z'
-  private def digits = 0 to 9
+  private def letters = ('A' to 'Z').toStream
+
+  private def digits = (0 to 9).toStream
 
 }
