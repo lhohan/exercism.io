@@ -7,5 +7,5 @@ object Dna {
     'T' -> 'A',
     'A' -> 'U')
 
-  def toRna(dna: String) = dna.map(Mapping(_))
+  def toRna(dna: String) = dna.map(Mapping)
 }
