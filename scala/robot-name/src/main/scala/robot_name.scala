@@ -15,24 +15,33 @@ class Robot {
 
 object Robot {
 
-  private def newName: String = allNames.headOption match {
-    case Some(n) => n
-    case None => throw new UnsupportedOperationException("No more names available")
+  private var remainingNames = allNames
+
+  private def newName: String = remainingNames.headOption match {
+    case Some(n) =>
+      remainingNames = remainingNames.tail
+      n
+    case None    => throw new UnsupportedOperationException("No more names available")
   }
 
-  // lazy list of all names, shuffled
-  // added the type to clarify
-  private def allNames: Stream[String] = Random.shuffle(
+  private lazy val allNames: Stream[String] =
     for {
       l1 <- letters
       l2 <- letters
       d1 <- digits
       d2 <- digits
       d3 <- digits
-    } yield s"$l1$l2$d1$d2$d3")
+    } yield s"$l1$l2$d1$d2$d3"
 
-  private def letters = ('A' to 'Z').toStream
+  private def letters = Random.shuffle(('A' to 'Z').toStream)
 
-  private def digits = (0 to 9).toStream
+  private def digits = Random.shuffle(('0' to '9').toStream)
 
 }
+
+/* for testing purposes - test case for exhausted list
+private def allNames: Stream[String] = Random.shuffle(
+  for {
+    d <- digits
+  } yield s"$d")
+*/
