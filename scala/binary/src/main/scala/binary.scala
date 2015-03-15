@@ -1,18 +1,8 @@
 import scala.annotation.tailrec
 
 case class Binary(b: String) {
-  def toDecimal: Int = {
-    def pow2(n: Int): Int = {
-      @tailrec
-      def pow2(n: Int, acc: Int): Int =
-        if (n <= 0) {
-          acc
-        } else {
-          pow2(n - 1, 2 * acc)
-        }
-      pow2(n, 1)
-    }
 
+  def toDecimal2: Int = {
     @tailrec
     def toDecimal(binary: List[Char], count: Int, total: Int): Int = binary match {
       case Nil       => total
@@ -22,4 +12,22 @@ case class Binary(b: String) {
     }
     toDecimal(b.reverse.toList, 0, 0)
   }
+
+  def toDecimal: Int = b.toStream.reverse.zipWithIndex.map(Some(_)).foldLeft(Option(0)) { (total, ob) =>
+    ob match {
+      case Some(('0', _)) => total
+      case Some(('1', i)) => total.map(_ + pow2(i))
+      case _              => None
+    }
+  }.getOrElse(0)
+
+  @tailrec
+  private def pow2(n: Int, t: Int = 1): Int =
+    if (n <= 0) {
+      t
+    } else {
+      pow2(n - 1, 2 * t)
+    }
+
+
 }
