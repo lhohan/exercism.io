@@ -15,16 +15,14 @@ case class RomanNumeral(r: Int) {
       (x, digits) match {
         case (0, _)                                        => acc
         case (_, Nil)                                      => throw new RuntimeException("no more digits")
-        case (xx, d1 :: d2 :: d3 :: ds) if (d1 - d3) == xx => expandedRoman(xx - (d1 - d3), acc + s"${digitToRoman(d3)}${digitToRoman(d1)}", d2 :: d3 :: ds)
+        case (xx, d1 :: d2 :: d3 :: ds) if (d1 - d3) == xx => expandedRoman(xx - (d1 - d3), acc + s"${digitToRoman(d3)}${digitToRoman(d1)}", ds)
+        case (xx, d1 :: d2 :: ds) if (d1 - d2) == xx && d2 != xx => expandedRoman(xx - (d1 - d2), acc + s"${digitToRoman(d2)}${digitToRoman(d1)}", ds)
         case (xx, d :: ds) if (xx - d) < 0                 => expandedRoman(xx, acc, ds)
         case (xx, d :: ds) if (xx - d) == 0                => expandedRoman(xx - d, acc + digitToRoman(d), ds)
         case (xx, d :: ds) if (xx - d) > 0                 => expandedRoman(xx - d, acc + digitToRoman(d), d :: ds)
       }
     }
-    def collapse(roman: String): String = {
-      toCollapse.foldLeft(roman)((acc, x) => acc.replaceAll(x._1, x._2))
-    }
-    collapse(expandedRoman(x, "", digitsDesc))
+    expandedRoman(x, "", digitsDesc)
   }
 
 
@@ -82,6 +80,4 @@ object RomanNumeral {
   // List((1,I), (5,V), (10,X), (50,L), (100,C), (500,D), (1000,M))
   val dtrSorted = digitToRoman.toList.sorted
   val digitsDesc = dtrSorted.map(_._1).reverse
-  val toCollapse = (dtrSorted zip dtrSorted.tail).map { case (dtr1, dtr2) => (dtr1._2, dtr2._2)}.map { case (r1, r2) => (List.fill(4)(r1).mkString, s"$r1$r2")}
-  println(toCollapse)
 }
