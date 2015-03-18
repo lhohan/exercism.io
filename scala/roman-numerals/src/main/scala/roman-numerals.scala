@@ -13,15 +13,15 @@ case class RomanNumeral(r: Int) {
     @tailrec
     def expandedRoman(x: Int, acc: String, digits: List[Int]): String = {
       (x, digits) match {
-        case (0, _) => acc
-        case (_, Nil) => throw new RuntimeException("no more digits")
+        case (0, _)                                        => acc
+        case (_, Nil)                                      => throw new RuntimeException("no more digits")
         case (xx, d1 :: d2 :: d3 :: ds) if (d1 - d3) == xx => expandedRoman(xx - (d1 - d3), acc + s"${digitToRoman(d3)}${digitToRoman(d1)}", d2 :: d3 :: ds)
-        case (xx, d :: ds) if (xx - d) < 0 => expandedRoman(xx, acc, ds)
-        case (xx, d :: ds) if (xx - d) == 0 => expandedRoman(xx - d, acc + digitToRoman(d), ds)
-        case (xx, d :: ds) if (xx - d) > 0 => expandedRoman(xx - d, acc + digitToRoman(d), d :: ds)
+        case (xx, d :: ds) if (xx - d) < 0                 => expandedRoman(xx, acc, ds)
+        case (xx, d :: ds) if (xx - d) == 0                => expandedRoman(xx - d, acc + digitToRoman(d), ds)
+        case (xx, d :: ds) if (xx - d) > 0                 => expandedRoman(xx - d, acc + digitToRoman(d), d :: ds)
       }
     }
-    def collapse(roman:String): String = {
+    def collapse(roman: String): String = {
       toCollapse.foldLeft(roman)((acc, x) => acc.replaceAll(x._1, x._2))
     }
     collapse(expandedRoman(x, "", digitsDesc))
@@ -43,7 +43,7 @@ case class RomanNumeral(r: Int) {
   @tailrec
   private def findRange(x: Int, romans: List[(Int, Char)], boundaries: RomanRange): RomanRange = {
     val upper = boundaries.upper
-    if(x > 1000 ) {
+    if (x > 1000) {
       RomanRange((Int.MaxValue, '-'), romans.head, Some(romans.drop(1).head))
     } else
     if (x <= upper._1) {
@@ -82,6 +82,6 @@ object RomanNumeral {
   // List((1,I), (5,V), (10,X), (50,L), (100,C), (500,D), (1000,M))
   val dtrSorted = digitToRoman.toList.sorted
   val digitsDesc = dtrSorted.map(_._1).reverse
-  val toCollapse = (dtrSorted zip dtrSorted.tail).map{case (dtr1, dtr2) => (dtr1._2, dtr2._2)}.map{case (r1, r2) => (List.fill(4)(r1).mkString,s"$r1$r2")}
+  val toCollapse = (dtrSorted zip dtrSorted.tail).map { case (dtr1, dtr2) => (dtr1._2, dtr2._2)}.map { case (r1, r2) => (List.fill(4)(r1).mkString, s"$r1$r2")}
   println(toCollapse)
 }
