@@ -6,6 +6,23 @@ case class RomanNumeral(number: Int) {
 
   case class RomanRange(lower: NumberRoman, upper: NumberRoman, lowerOfLower: Option[NumberRoman] = None)
 
+  val value = {
+    // 576 -> (500, 70, 6)
+    def split(int: Int) = {
+      @tailrec
+      def pow(x: Int, y: Int, t: Int = 1): Int = if (y == 0) {
+        t
+      } else {
+        pow(x, y - 1, t * x)
+      }
+
+      val digits = int.toString.toList
+      digits.zip((0 until digits.length).reverse).map { case (d, i) => d.asDigit * pow(10, i)}
+    }
+
+    split(number).map(toRoman).mkString
+  }
+
   private def toRoman: Int => String = x => {
 
     @tailrec
@@ -48,23 +65,6 @@ case class RomanNumeral(number: Int) {
     }
 
     convert(x, findRange(x, sortedNumberRomans, RomanRange(sortedNumberRomans.head, sortedNumberRomans.drop(1).head)))
-  }
-
-  val value = {
-    // 576 -> (500, 70, 6)
-    def split(int: Int) = {
-      @tailrec
-      def pow(x: Int, y: Int, t: Int = 1): Int = if (y == 0) {
-        t
-      } else {
-        pow(x, y - 1, t * x)
-      }
-
-      val digits = int.toString.toList
-      digits.zip((0 until digits.length).reverse).map { case (d, i) => d.asDigit * pow(10, i)}
-    }
-
-    split(number).map(toRoman).mkString
   }
 
 }
