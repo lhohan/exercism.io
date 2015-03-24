@@ -4,34 +4,26 @@ object PrimeFactors {
 
   def apply() = this
 
-  type Prime = (Long, PrimeGenerator)
-
-  case class PrimeGenerator(sieve: Stream[Long]) {
-    def nextPrime: Prime = {
-      (sieve.head, PrimeGenerator(sieve.filter(_ % sieve.head != 0)))
-    }
-  }
-
   def primeFactors(number: Long): List[Long] = {
 
     def from(long: Long): Stream[Long] = Stream.cons(long, from(long + 1))
 
     @tailrec
-    def factors(n: Long, acc: List[Long], primeGenerator: PrimeGenerator, currentPrime: Long = 2): List[Long] = {
+    def factors(n: Long, acc: List[Long], ps: Stream[Long], currentPrime: Long = 2): List[Long] = {
       if (n == 1) {
         acc
       } else {
-        println(s"prime is $currentPrime")
         val remainder = n % currentPrime
         if (remainder == 0) {
           val quotient = n / currentPrime
-          factors(quotient, acc :+ currentPrime, primeGenerator, currentPrime)
+          factors(quotient, acc :+ currentPrime, ps, currentPrime)
         } else {
-          val (nextPrime, generator) = primeGenerator.nextPrime
-          factors(n, acc, generator, nextPrime)
+          factors(n, acc, ps.tail, ps.head)
         }
       }
     }
-    factors(number, List.empty[Long], new PrimeGenerator(from(2)))
+
+    lazy val primes: Stream[Long] = 2 #:: from(3).filter(_ % primes.head != 0)
+    factors(number, List.empty[Long], primes)
   }
 }
