@@ -15,19 +15,19 @@ object CryptoSquare {
           (acc, c) =>
             c.toCharArray.toList match {
               case Nil               => acc
-              case (h: Char) :: rest => h :: acc
+              case (h: Char) :: rest => acc :+ h
             }
-        }.reverse
+        }
         val withoutFirstCol = m.foldLeft(List.empty[String]) {
           (acc, c) => c.toCharArray.toList match {
             case Nil               => acc
-            case (_: Char) :: rest => rest.mkString("") :: acc
+            case (_: Char) :: rest => acc :+ rest.mkString("")
           }
-        }.reverse
-        transpose(withoutFirstCol, firstColToRow.mkString("") :: acc)
+        }
+        transpose(withoutFirstCol, acc :+ firstColToRow.mkString(""))
       }
     }
-    transpose(plaintextSegments(s), Nil).reverse
+    transpose(plaintextSegments(s), Nil)
   }
 
   def plaintextSegments(s: String): List[String] = {
