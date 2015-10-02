@@ -11,20 +11,15 @@ object CryptoSquare {
       if (m.flatten.isEmpty) {
         acc
       } else {
-        val firstColToRow = m.foldLeft(List.empty[Char]) {
+        val strippedColumn = m.foldLeft((List.empty[Char], List.empty[String])) {
           (acc, c) =>
+            val (cs, ss) = acc
             c.toCharArray.toList match {
-              case Nil               => acc
-              case (h: Char) :: rest => acc :+ h
+              case Nil               => (cs, ss)
+              case (h: Char) :: rest => (cs :+ h, ss :+ rest.mkString(""))
             }
         }
-        val withoutFirstCol = m.foldLeft(List.empty[String]) {
-          (acc, c) => c.toCharArray.toList match {
-            case Nil               => acc
-            case (_: Char) :: rest => acc :+ rest.mkString("")
-          }
-        }
-        transpose(withoutFirstCol, acc :+ firstColToRow.mkString(""))
+        transpose(strippedColumn._2, acc :+ strippedColumn._1.mkString(""))
       }
     }
     transpose(plaintextSegments(s), Nil)
