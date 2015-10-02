@@ -32,11 +32,10 @@ object CryptoSquare {
 
   def plaintextSegments(s: String): List[String] = {
     val normalized = normalizePlaintext(s)
-    val size = squareSize(normalized)
-
-    if (size == 0) {
+    if (normalized.isEmpty) {
       List("")
     } else {
+      val size = squareSize(normalized)
       normalized.grouped(size).toList
     }
   }
