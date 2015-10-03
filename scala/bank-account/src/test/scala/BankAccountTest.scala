@@ -53,17 +53,17 @@ class BankAccountTest extends FunSuite with Matchers with Conductors with Integr
     val acct = BankAccount()
 
     thread("t1") {
-      for (a <- 1 to 10)
+      for (a <- 1 to 100)
         acct.incrementBalance(10)
     }
 
     thread("t2") {
-      for (a <- 1 to 10)
+      for (a <- 1 to 100)
         acct.incrementBalance(5)
     }
 
     whenFinished {
-      acct.getBalance should be (Some(150))
+      acct.getBalance should be (Some(1500))
     }
   }
 }
