@@ -23,7 +23,7 @@ case class Robot(bearing: Bearing, coordinates: (Int, Int)) {
 
 }
 
-object Bearing extends Enumeration {
+object Bearing {
 
   sealed trait Bearing {
     def left: Bearing
@@ -32,24 +32,28 @@ object Bearing extends Enumeration {
   }
 
   case object North extends Bearing {
+    
     override def left: Bearing = West
 
     override def right: Bearing = East
   }
 
   case object East extends Bearing {
+    
     override def left: Bearing = North
 
     override def right: Bearing = South
   }
 
   case object South extends Bearing {
+    
     override def left: Bearing = East
 
     override def right: Bearing = West
   }
 
   case object West extends Bearing {
+    
     override def left: Bearing = South
 
     override def right: Bearing = North
