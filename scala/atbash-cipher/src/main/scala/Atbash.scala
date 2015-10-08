@@ -1,21 +1,18 @@
 object Atbash {
   def apply() = this
 
+  val Letters = 'a' to 'z'
+  val AtbashMapping = Letters.zip(Letters.reverse).toMap
 
-  private val atbash = {
-    val letters = 'a' to 'z'
-    val digits = (0 to 9).map(d => ('0' + d).toChar)
-    val atbashLetterMapping = letters.zip(letters.reverse)
-    val digitMapping: IndexedSeq[(Char, Char)] = digits.zip(digits)
-
-    (atbashLetterMapping ++ digitMapping).toMap
+  private def atbash: PartialFunction[Char, Char] = {
+    case c if c.isLetter => AtbashMapping(c)
+    case c if c.isDigit  => c
   }
 
   def encode(s: String): String = {
-    def isSupportedChar: (Char) => Boolean = atbash.keySet.contains
     def format(a: String): String = a.grouped(5).mkString(" ")
 
-    val encoded = s.toLowerCase.filter(isSupportedChar).map(atbash)
+    val encoded = s.toLowerCase.collect(atbash)
     format(encoded)
   }
 }
